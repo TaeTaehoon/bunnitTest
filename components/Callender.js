@@ -33,6 +33,25 @@ function Calendar() {
   });
   const [prevDays, setPrevDays] = useState([]);
   const [currDays, setCurrDays] = useState([]);
+
+  const handleClickPrevBtn = () => {
+    if (targetDate.month > 0) {
+      setTargetDate({ ...targetDate, month: targetDate.month - 1 });
+      setPrevDays(new Array(0));
+      setCurrDays(new Array(0));
+    }
+  };
+  const handleClickNextBtn = () => {
+    if (targetDate.month < 11) {
+      setTargetDate({ ...targetDate, month: targetDate.month + 1 });
+      setPrevDays(new Array(0));
+      setCurrDays(new Array(0));
+    }
+  };
+  const handleClickDate = (e) => {
+    console.log(e);
+    console.log("click");
+  };
   useEffect(() => {
     const prev = new Date(targetDate.year, targetDate.month, 0);
     const curr = new Date(targetDate.year, targetDate.month + 1, 0);
@@ -63,13 +82,13 @@ function Calendar() {
   return (
     <View style={styles.container}>
       <View style={styles.headerWrapper}>
-        <Button title="&lt;" />
+        <Button title="&lt;" onPress={handleClickPrevBtn} />
         <View style={styles.currentInfo}>
           <Text>{MONTHS[targetDate.month]}</Text>
           <Text>{targetDate.year}</Text>
         </View>
 
-        <Button title="&gt;" />
+        <Button title="&gt;" onPress={handleClickNextBtn} />
       </View>
       <View style={styles.daysContainer}>
         {DAYS.map((day, idx) => {
@@ -96,6 +115,7 @@ function Calendar() {
               title={`${day}`}
               key={`${day}${idx}`}
               style={styles.dateContainer.date}
+              onPress={handleClickDate}
             />
           );
         })}
@@ -105,6 +125,7 @@ function Calendar() {
               title={`${day}`}
               key={`${day}${idx}`}
               style={styles.dateContainer.date}
+              onPress={handleClickDate}
             />
           );
         })}
